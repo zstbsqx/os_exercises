@@ -7,33 +7,36 @@
 能否读懂ucore中的AT&T格式的X86-32汇编语言？请列出你不理解的汇编语言。
 - [x]  
 
->  http://www.imada.sdu.dk/Courses/DM18/Litteratur/IntelnATT.htm
+>  参考过http://www.imada.sdu.dk/Courses/DM18/Litteratur/IntelnATT.htm后，基本能读懂。但是对in、out、cld等指令不是很了解。另外对于切换到LJMP那句不是很明白。
 
 虽然学过计算机原理和x86汇编（根据THU-CS的课程设置），但对ucore中涉及的哪些硬件设计或功能细节不够了解？
 - [x]  
 
->   
+>   不懂port指的是什么。
 
 
 哪些困难（请分优先级）会阻碍你自主完成lab实验？
 - [x]  
 
 >   
+- 对硬件了解不够
+- 汇编代码读不懂
+- C代码中复杂的宏看不懂
 
 如何把一个在gdb中或执行过程中出现的物理/线性地址与你写的代码源码位置对应起来？
 - [x]  
 
->   
+>   设断点，用examine命令
 
 了解函数调用栈对lab实验有何帮助？
 - [x]  
 
->   
+>   bootmain函数使用了栈。
 
 你希望从lab中学到什么知识？
 - [x]  
 
->   
+>   如何从实模式切换到保护模式。
 
 ---
 
@@ -44,19 +47,19 @@
 搭建好实验环境，请描述碰到的困难和解决的过程。
 - [x]  
 
-> 
+> xuetangx的在线课件完全不能满足spoc问题的要求。vdi压缩包在外网，太费流量，下载速度太慢。
 
 熟悉基本的git命令行操作命令，从github上
 的 http://www.github.com/chyyuu/ucore_lab 下载
 ucore lab实验
 - [x]  
 
-> 
+> 不需要上传，clone即可
 
 尝试用qemu+gdb（or ECLIPSE-CDT）调试lab1
 - [x]   
 
-> 
+> vdi文件下载完成后会做的。
 
 对于如下的代码段，请说明”：“后面的数字是什么含义
 ```
@@ -76,7 +79,7 @@ struct gatedesc {
 
 - [x]  
 
-> 
+> 表示位域，用于表示这个变量占多少位。
 
 对于如下的代码段，
 ```
