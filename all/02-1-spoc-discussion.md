@@ -15,6 +15,7 @@
 ## 3.3 中断、异常和系统调用比较
  1. 举例说明Linux中有哪些中断，哪些异常？
  1. Linux的系统调用有哪些？大致的功能分类有哪些？  (w2l1)
+>  linux中有上百条系统调用，主要分为进程控制、文件系统控制（包括文件读写和文件系统操作）、系统控制、内存管理、网络管理、socket控制、用户管理、进程间通信（信号、消息、管道、信号量、共享内存）。
 
 ```
   + 采分点：说明了Linux的大致数量（上百个），说明了Linux系统调用的主要分类（文件操作，进程管理，内存管理等）
@@ -25,6 +26,30 @@
  ```
  
  1. 以ucore lab8的answer为例，uCore的系统调用有哪些？大致的功能分类有哪些？(w2l1)
+ >  包括
+    sys_exit,
+    sys_fork,
+    sys_wait,
+    sys_exec,
+    sys_yield,
+    sys_kill,
+    sys_getpid,
+    sys_putc,
+    sys_pgdir,
+    sys_gettime,
+    sys_lab6_set_priority,
+    sys_sleep,
+    sys_open,
+    sys_close,
+    sys_read,
+    sys_write,
+    sys_seek,
+    sys_fstat,
+    sys_fsync,
+    sys_getcwd,
+    sys_getdirentry,
+    sys_dup。
+    主要包括进程控制，系统控制，文件读写，文件系统操作。
  
  ```
   + 采分点：说明了ucore的大致数量（二十几个），说明了ucore系统调用的主要分类（文件操作，进程管理，内存管理等）
@@ -36,7 +61,7 @@
  
 ## 3.4 linux系统调用分析
  1. 通过分析[lab1_ex0](https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-ex0.md)了解Linux应用的系统调用编写和含义。(w2l1)
- 
+ >  objdump可查看编译后文件的组成；nm可查看符号表相关的信息；file可查看文件属性。通过查看汇编文件得知，该程序用于输出helloworld，调用标准输出函数的过程为：先将SYS_write的地址放置于eax，再将STDOUT的地址放置于ebx，将字符串地址置于ecx，字符串长度（不确定，因为不知道程序中12指的是十进制还是十六进制）置于edx，最后调用int 0x80进行中断。
 
  ```
   + 采分点：说明了objdump，nm，file的大致用途，说明了系统调用的具体含义
@@ -48,7 +73,28 @@
  ```
  
  1. 通过调试[lab1_ex1](https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-ex1.md)了解Linux应用的系统调用执行过程。(w2l1)
- 
+ >  strace是一个跟踪程序运行并将信息输出到标准输出的命令，输出如下：
+ % time     seconds  usecs/call     calls    errors syscall
+```
+------ ----------- ----------- --------- --------- ----------------
+ 23.14    0.000028           4         8           mmap
+ 21.49    0.000026           7         4           mprotect
+ 14.88    0.000018          18         1           write
+ 14.05    0.000017          17         1           munmap
+ 11.57    0.000014           7         2           open
+  9.09    0.000011           4         3         3 access
+  3.31    0.000004           1         3           fstat
+  1.65    0.000002           2         1           read
+  0.83    0.000001           1         1           execve
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000121                    28         3 total
+```
+由上述表格看出，首先是操作系统进行了一些内存分配保护写等操作，然后进行了一些文件操作，执行程序，结束后又进行了一些内存操作，可能是重新分配。
+more命令列出了更多可用信息。
+
 
  ```
   + 采分点：说明了strace的大致用途，说明了系统调用的具体执行过程（包括应用，CPU硬件，操作系统的执行过程）
