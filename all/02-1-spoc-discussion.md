@@ -74,8 +74,8 @@
  
  1. 通过调试[lab1_ex1](https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-ex1.md)了解Linux应用的系统调用执行过程。(w2l1)
  >  strace是一个跟踪程序运行并将信息输出到标准输出的命令，输出如下：
- % time     seconds  usecs/call     calls    errors syscall
 ```
+ % time     seconds  usecs/call     calls    errors syscall
 ------ ----------- ----------- --------- --------- ----------------
  23.14    0.000028           4         8           mmap
  21.49    0.000026           7         4           mprotect
