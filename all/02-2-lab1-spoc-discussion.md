@@ -54,6 +54,93 @@ lab1中的cprintf函数最终通过哪些外设完成了对字符串的输出？
 
 lab1中printfmt函数用到了可变参，请参考写一个小的linux应用程序，完成实现定义和调用一个可变参数的函数。(spoc)
 - [x]  
+> 这个cpp程序完成了一个类似于snprintf的功能，不过只有整形、字符和字符串的格式化。
+```
+#include <string>
+#include <iostream>
+#include <stdarg.h>
+#include <cstdlib>
+
+using namespace std;
+
+string formatStr(string fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+
+    string res = "";
+    size_t len = fmt.size();
+    bool formatFlag = false;
+    for(size_t i = 0; i < len; i++)
+    {
+        //cout << "processing " << fmt[i] << endl;
+        if(formatFlag)
+        {
+            switch(fmt[i])
+            {
+            case '%':
+                {
+                    res += '%';
+                    break;
+                }
+            case 'd':
+                {
+                    int tmp = (int)va_arg(ap, int);
+                    //cout << "1";
+                    char buf[12];
+                    itoa(tmp, buf, 10);
+                    res += string(buf);
+                    //cout << "2";
+                    formatFlag = false;
+                    //cout << "3";
+                    break;
+                }
+            case 'c':
+                {
+                    char tmp = (char)va_arg(ap, int);
+                    res += tmp;
+                    formatFlag = false;
+                    break;
+                }
+            case 's':
+                {
+                    char* tmp = (char*)va_arg(ap, char*);
+                    res += tmp;
+                    formatFlag = false;
+                    break;
+                }
+            default:
+                {
+                    res += "%";
+                    res += fmt[i];
+                    formatFlag = false;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            if(fmt[i] == '%' && i != len-1)
+            {
+                formatFlag = true;
+            }
+            else
+            {
+                res += fmt[i];
+            }
+        }
+        //cout << fmt[i] << " over" << endl;
+    }
+    //cout << res;
+    return res;
+}
+
+int main()
+{
+    cout << formatStr("just a test:\nString:%s, %%f\nChar:%c\nint:%d+%d\n", "biu", 'f', 15, 16);
+    return 0;
+}
+```
 
 
 
